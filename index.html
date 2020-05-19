@@ -7,6 +7,7 @@
 <textarea id="payload" placeholder="Enter Payload"></textarea>
 <button id="stringify">Stringify</button>
 <button id="send">Send</button>
+<button id="send-test">Send Premade</button>
 <label for="responses" hidden>Response</label>
 <textarea id="responses" hidden></textarea>
 
@@ -17,7 +18,13 @@
     const payloadField = document.querySelector('#payload');
     const stringifyButton = document.querySelector('#stringify');
     const sendButton = document.querySelector('#send');
+    const sendTestButton = document.querySelector('#send-test');
     const responsesField = document.querySelector('#responses');
+
+    const testObject = {
+        test: 'this is a test'
+    }
+    sendTestButton.title = JSON.stringify(testObject);
 
     let ws = {};
 
@@ -59,7 +66,7 @@
         event.preventDefault();
         console.log('Stringify!');
 
-        payloadField.value = JSON.stringify(payloadField.value);
+        payloadField.value = JSON.stringify(JSON.parse(payloadField.value));
     });
 
     sendButton.addEventListener('click', (event) => {
@@ -67,6 +74,12 @@
         console.log('Sending payload', payloadField.value);
 
         ws.send(payloadField.value);
+    });
+
+    sendTestButton.addEventListener('click', (event) => {
+        event.preventDefault();
+
+        ws.send(JSON.stringify(testObject));
     })
 
 </script>
